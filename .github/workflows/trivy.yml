@@ -5,7 +5,7 @@ on:
   schedule:
     - cron: '32 13 * * 1'
 jobs:
-  analyze-kotlin:
+  trivy-scan:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:

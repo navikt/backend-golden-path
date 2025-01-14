@@ -9,7 +9,7 @@ on:
     workflows: ['Dependabot auto-merge']
     types: [completed]
 jobs:
-  build:
+  test-build-deploy:
     permissions:
       contents: write # for dependency graph
       id-token: write # for nais docker-build-push
@@ -47,7 +47,7 @@ jobs:
       - name: Dispatch trivy scan
         if: success()
         run: |
-          curl -X POST -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d '{"event_type":"start-trivy", "client_payload": {"image": "${{ steps.docker-push.outputs.image }}"}}'
+          gh api repos/${{ github.repository }}/dispatches \
+            -f event_type=start-trivy \
+            -f client_payload='{"image": "${{ steps.docker-push.outputs.image }}"}' \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
