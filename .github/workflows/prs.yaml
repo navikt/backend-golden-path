@@ -21,11 +21,6 @@ jobs:
       - uses: gradle/actions/setup-gradle@0bdd871935719febd78681f197cd39af5b6e16a6
       - name: Test & build
         run: ./gradlew test build
-      - uses: nais/docker-build-push@5246e4705d79945a0ec28eb9bd3638dd534fee46
-        id: docker-push
+      - uses: docker/build-push-action@b32b51a8eda65d6793cd0494a773d4f6bcef32dc
         with:
-          team: appsec
           push_image: false
-          pull: true
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
