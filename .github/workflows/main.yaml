@@ -11,8 +11,8 @@ on:
 jobs:
   build:
     permissions:
-      contents: read
-      id-token: write
+      contents: write # for dependency graph
+      id-token: write # for nais docker-build-push
     runs-on: ubuntu-latest
     environment: prod-gcp:appsec
     outputs:
