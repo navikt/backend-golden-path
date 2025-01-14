@@ -1,0 +1,53 @@
+name: Build and deploy main
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "*.md"
+  workflow_run:
+    workflows: ['Dependabot auto-merge']
+    types: [completed]
+jobs:
+  build:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    environment: prod-gcp:appsec
+    outputs:
+      image: ${{ steps.docker-push.outputs.image }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: gradle
+      - uses: gradle/actions/setup-gradle@0bdd871935719febd78681f197cd39af5b6e16a6
+      - name: Test & build
+        run: ./gradlew test build
+      - uses: nais/docker-build-push@5246e4705d79945a0ec28eb9bd3638dd534fee46
+        id: docker-push
+        with:
+          team: appsec
+          push_image: true
+          pull: true
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@0bdd871935719febd78681f197cd39af5b6e16a6
+      #- uses: nais/deploy/actions/deploy@7c152a10f4da3ca352d57a25eba0b3a8e04882f9
+      #  env:
+      #    RESOURCE: .nais/nais.yaml
+      #    CLUSTER: prod-gcp
+      #    IMAGE: ${{ steps.docker-push.outputs.image }}
+      - name: Dispatch trivy scan
+        if: success()
+        run: |
+          curl -X POST -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d '{"event_type":"start-trivy", "client_payload": {"image": "${{ steps.docker-push.outputs.image }}"}}'

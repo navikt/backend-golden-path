@@ -1,0 +1,31 @@
+name: Run test & build on PRs
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+jobs:
+  build:
+    name: Compile and test PRs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: gradle
+      - uses: gradle/actions/setup-gradle@0bdd871935719febd78681f197cd39af5b6e16a6
+      - name: Test & build
+        run: ./gradlew test build
+      - uses: nais/docker-build-push@5246e4705d79945a0ec28eb9bd3638dd534fee46
+        id: docker-push
+        with:
+          team: appsec
+          push_image: false
+          pull: true
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
