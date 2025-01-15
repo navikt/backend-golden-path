@@ -46,8 +46,9 @@ jobs:
       #    IMAGE: ${{ steps.docker-push.outputs.image }}
       - name: Dispatch trivy scan
         if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh api repos/${{ github.repository }}/dispatches \
             -f event_type=start-trivy \
             -f client_payload='{"image": "${{ steps.docker-push.outputs.image }}"}' \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
