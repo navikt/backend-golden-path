@@ -7,7 +7,6 @@ on:
       - edited
 jobs:
   build:
-    name: Compile and test PRs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -21,6 +20,3 @@ jobs:
       - uses: gradle/actions/setup-gradle@0bdd871935719febd78681f197cd39af5b6e16a6
       - name: Test & build
         run: ./gradlew test build
-      - uses: docker/build-push-action@67a2d409c0a876cbe6b11854e3e25193efe4e62d
-        with:
-          push_image: false
