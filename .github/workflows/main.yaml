@@ -15,6 +15,8 @@ jobs:
       id-token: write # for nais docker-build-push
     runs-on: ubuntu-latest
     environment: prod-gcp:appsec
+    outputs:
+      image: ${{ steps.docker-push.outputs.image }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -42,12 +44,25 @@ jobs:
       #    RESOURCE: .nais/nais.yaml
       #    CLUSTER: prod-gcp
       #    IMAGE: ${{ steps.docker-push.outputs.image }}
-      - name: Dispatch trivy scan
-        if: success()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api repos/${{ github.repository }}/dispatches \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -F "event_type=start-trivy" \
-            -F "client_payload[image]=${{ steps.docker-push.outputs.image }}"
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write # to write sarif
+      security-events: write # push sarif to github security
+      id-token: write # for nais/login
+    steps:
+      - uses: nais/login@4ce7445c84f09114e481a1d2c164f563e9e2ba8e
+        with:
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          team: appsec
+      - uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0
+        with:
+          image-ref: '${{ needs.test-build-deploy.outputs.image }}'
+          format: 'sarif'
+          output: 'trivy.sarif'
+      - uses: github/codeql-action/upload-sarif@b6a472f63d85b9c78a3ac5e89422239fc15e9b3c
+        with:
+          sarif_file: 'trivy.sarif'
