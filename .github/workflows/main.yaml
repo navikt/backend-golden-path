@@ -53,7 +53,7 @@ jobs:
       security-events: write # push sarif to github security
       id-token: write # for nais/login
     steps:
-      - uses: nais/login@4ce7445c84f09114e481a1d2c164f563e9e2ba8e
+      - uses: nais/login@03c199882a260723283b5aea1fac124623f36c5d
         with:
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
