@@ -11,7 +11,8 @@ on:
 jobs:
   test-build-deploy:
     permissions:
-      contents: write # for dependency graph
+      contents: write # for dependency graph & sarif
+      security-events: write # push sarif to github security
       id-token: write # for nais docker-build-push
     runs-on: ubuntu-latest
     outputs:
