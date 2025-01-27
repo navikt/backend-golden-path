@@ -14,7 +14,6 @@ jobs:
       contents: write # for dependency graph
       id-token: write # for nais docker-build-push
     runs-on: ubuntu-latest
-    environment: prod-gcp:appsec
     outputs:
       image: ${{ steps.docker-push.outputs.image }}
     steps:
@@ -29,40 +28,35 @@ jobs:
       - uses: gradle/actions/setup-gradle@0bdd871935719febd78681f197cd39af5b6e16a6
       - name: Test & build
         run: ./gradlew test build
-      - uses: nais/docker-build-push@5246e4705d79945a0ec28eb9bd3638dd534fee46
+      - name: Build & push docker image + SBOM
+        uses: nais/docker-build-push@5246e4705d79945a0ec28eb9bd3638dd534fee46
         id: docker-push
         with:
           team: appsec
-          push_image: true
           pull: true
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@0bdd871935719febd78681f197cd39af5b6e16a6
+      - name: Scan docker image for secrets
+        uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0
+        with:
+          image-ref: '${{ steps.docker-push.outputs.image }}'
+          format: 'sarif'
+          scanners: 'secret'
+          output: 'trivy.sarif'
+      - uses: github/codeql-action/upload-sarif@b6a472f63d85b9c78a3ac5e89422239fc15e9b3c
+        with:
+          sarif_file: 'trivy.sarif'
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+        contents: read
+    needs: test-build-deploy
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
       #- uses: nais/deploy/actions/deploy@7c152a10f4da3ca352d57a25eba0b3a8e04882f9
       #  env:
       #    RESOURCE: .nais/nais.yaml
       #    CLUSTER: prod-gcp
       #    IMAGE: ${{ steps.docker-push.outputs.image }}
-
-  trivy-scan:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: write # to write sarif
-      security-events: write # push sarif to github security
-      id-token: write # for nais/login
-    steps:
-      - uses: nais/login@4ce7445c84f09114e481a1d2c164f563e9e2ba8e
-        with:
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          team: appsec
-      - uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0
-        with:
-          image-ref: '${{ needs.test-build-deploy.outputs.image }}'
-          format: 'sarif'
-          output: 'trivy.sarif'
-      - uses: github/codeql-action/upload-sarif@b6a472f63d85b9c78a3ac5e89422239fc15e9b3c
-        with:
-          sarif_file: 'trivy.sarif'
