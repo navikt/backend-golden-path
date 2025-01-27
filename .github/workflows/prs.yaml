@@ -6,7 +6,7 @@ on:
       - reopened
       - edited
 jobs:
-  build:
+  test-prs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
