@@ -29,7 +29,7 @@ jobs:
       - name: Test & build
         run: ./gradlew test build
       - name: Build & push docker image + SBOM
-        uses: nais/docker-build-push@5246e4705d79945a0ec28eb9bd3638dd534fee46
+        uses: nais/docker-build-push@b456950f126babd98088910e4dc8ac9373823bda
         id: docker-push
         with:
           team: appsec
