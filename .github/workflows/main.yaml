@@ -5,9 +5,8 @@ on:
       - main
     paths-ignore:
       - "*.md"
-  workflow_run:
-    workflows: ['Dependabot auto-merge']
-    types: [completed]
+  repository_dispatch:
+    types: [deploy]
 jobs:
   test-build-deploy:
     permissions:
