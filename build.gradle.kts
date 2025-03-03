@@ -2,7 +2,7 @@
 val ktorVersion = "3.1.1"
 val logbackVersion = "1.5.17"
 val logstashEncoderVersion = "8.0"
-val junitJupiterVersion = "5.12.0"
+val junitJupiterVersion = "5.11.4"
 val mainClassName = "no.nav.MainKt"
 
 plugins {
