@@ -2,7 +2,7 @@
 val ktorVersion = "3.1.1"
 val logbackVersion = "1.5.17"
 val logstashEncoderVersion = "8.0"
-val junitJupiterVersion = "5.11.4"
+val junitVersion = "5.12"
 val mainClassName = "no.nav.MainKt"
 
 plugins {
@@ -26,8 +26,9 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashEncoderVersion")
 
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 
