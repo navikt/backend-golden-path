@@ -27,7 +27,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@94baf225fe0a508e581a564467443d0e2379123b
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@5f8171a638ada777af81d42b55959a643bb29017
+        uses: github/codeql-action/init@1b549b9259bda1cb5ddde3b41741a82a2d15a841
         with:
           languages: java-kotlin
           build-mode: manual
@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew build
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@5f8171a638ada777af81d42b55959a643bb29017
+        uses: github/codeql-action/analyze@1b549b9259bda1cb5ddde3b41741a82a2d15a841
   analyze-github-actions:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -54,10 +54,10 @@ jobs:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@5f8171a638ada777af81d42b55959a643bb29017
+        uses: github/codeql-action/init@1b549b9259bda1cb5ddde3b41741a82a2d15a841
         with:
           languages: actions
           queries: security-extended,security-and-quality
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@5f8171a638ada777af81d42b55959a643bb29017
+        uses: github/codeql-action/analyze@1b549b9259bda1cb5ddde3b41741a82a2d15a841
