@@ -42,7 +42,7 @@ jobs:
           format: 'sarif'
           scanners: 'secret'
           output: 'trivy.sarif'
-      - uses: github/codeql-action/upload-sarif@28deaeda66b76a05916b6923827895f2b14ab387
+      - uses: github/codeql-action/upload-sarif@60168efe1c415ce0f5521ea06d5c2062adbeed1b
         with:
           sarif_file: 'trivy.sarif'
   deploy:
