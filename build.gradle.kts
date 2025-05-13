@@ -6,7 +6,7 @@ val junitVersion = "5.12.2"
 val mainClassName = "no.nav.MainKt"
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.1.21"
 }
 
 repositories {
