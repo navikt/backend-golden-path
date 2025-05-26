@@ -11,10 +11,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high # Fail if introducing high or critical vulnerabilities
+      - uses: actions/setup-java@v4
         with:
           java-version: 21
           distribution: temurin
