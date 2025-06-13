@@ -3,8 +3,14 @@
 ![workflow](https://github.com/navikt/backend-golden-path/actions/workflows/main.yaml/badge.svg)
 
 ## Overview
+
 This is a demo repository that offers a golden path for JVM projects.
 The workflows are defined using GitHub Actions and are located in the `.github/workflows` directory.
+
+## After using this template
+
+- Look over each `TODO` in this repository and make appropriate changes.
+- Change this README to suit your application! You can always view the backend-golden-path README by clicking "generated from [navikt/backend-golden-path](https://github.com/navikt/backend-golden-path)" in your repository's header. :)
 
 ## Workflows
 
