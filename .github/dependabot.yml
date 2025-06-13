@@ -1,5 +1,5 @@
 version: 2
-# Use registries if you need to authenticate to a package registry.
+# TODO? Use registries if you need to authenticate to a package registry.
 # For example when using private GitHub packages, change & uncomment lines below.
 #
 #registries:
