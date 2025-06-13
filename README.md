@@ -10,6 +10,7 @@ The workflows are defined using GitHub Actions and are located in the `.github/w
 ## After using this template
 
 - Look over each `TODO` in this repository and make appropriate changes.
+- Remember to add the repository to your team in [Nais console](https://console.nav.cloud.nais.io/).
 - Change this README to suit your application. (You can always view the backend-golden-path README by clicking "generated from [navikt/backend-golden-path](https://github.com/navikt/backend-golden-path)" in your repository's header)
 - Make the rest of your application!
 
@@ -43,8 +44,7 @@ Workflow file: `.github/workflows/main.yaml`
 
 This workflow is triggered on pull requests created by Dependabot and performs the following steps:
 
-- **Fetch Dependabot metadata**: Uses the `dependabot/fetch-metadata` action to fetch metadata for the Dependabot pull request.
-- **Auto-merge changes**: Uses the `gh pr merge` command to auto-merge Dependabot pull requests, except for major version updates, unless the package ecosystem is GitHub Actions.
+- **Automerge Dependabot PRs**: Uses the `navikt/automerge-dependabot` action to auto-merge Dependabot pull requests.
 
 Workflow file: `.github/workflows/dependabot-automerge.yml`
 
