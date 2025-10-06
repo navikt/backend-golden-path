@@ -2,7 +2,7 @@ name: Automerge Dependabot PRs
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 7 * * 1-5'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - name: Automerge Dependabot PRs
-        uses: navikt/automerge-dependabot@main
+        uses: navikt/automerge-dependabot@v1.2.2
         with:
           token: ${{ github.token }}
           blackout-periods: '2025-07-01/2025-07-31,2025-12-20/2026-01-02' # TODO: Update periods suitable for your team, or omit this field entirely
