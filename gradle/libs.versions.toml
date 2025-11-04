@@ -2,7 +2,7 @@
 ktor = "3.3.0"
 logback = "1.5.19"
 logstash = "8.1"
-junit-jupiter = "6.0.0"
+junit-jupiter = "6.0.1"
 
 [libraries]
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
