@@ -1,5 +1,5 @@
 [versions]
-ktor = "3.3.1"
+ktor = "3.3.2"
 logback = "1.5.19"
 logstash = "8.1"
 junit-jupiter = "6.0.1"
