@@ -1,7 +1,7 @@
-FROM gcr.io/distroless/java21-debian12
-
-COPY build/libs/*.jar /app/
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/jre:openjdk-25
 
 WORKDIR /app
 
-CMD ["app.jar"]
+COPY build/install/app/ /app/
+
+ENTRYPOINT ["java", "-cp", "/app/lib/*", "no.nav.MainKt"]

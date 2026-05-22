@@ -1,14 +1,18 @@
 [versions]
+kotlin = "2.3.21"
 ktor = "3.5.0"
 logback = "1.5.32"
-logstash = "8.1"
-junit-jupiter = "6.0.3"
+logstash = "9.0"
+junit-bom = "6.1.0"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-jupiter" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-bom" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -22,4 +26,10 @@ ktor = [
 logging = [
     "logback",
     "logstash"
+]
+
+test = [
+    "ktor-server-test-host",
+    "junit-jupiter",
+    "junit-platform-launcher"
 ]
