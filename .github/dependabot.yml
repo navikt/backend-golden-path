@@ -25,8 +25,3 @@ updates:
       default-days: 3
 #    registries:
 #      - mvn-repo
-
-  - package-ecosystem: docker
-    directory: "/"
-    schedule:
-      interval: daily
