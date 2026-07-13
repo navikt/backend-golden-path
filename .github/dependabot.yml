@@ -16,6 +16,10 @@ updates:
       interval: daily
     cooldown:
       default-days: 3
+    groups:
+      github:
+        patterns:
+        - "*"
 
   - package-ecosystem: gradle
     directory: "/"
@@ -23,5 +27,9 @@ updates:
       interval: daily
     cooldown:
       default-days: 3
+    groups:
+      gradle:
+        patterns:
+        - "*"
 #    registries:
 #      - mvn-repo
