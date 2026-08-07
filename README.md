@@ -32,7 +32,7 @@ Workflow file: `.github/workflows/prs.yaml`
 This workflow triggers on push to main and when dependabot updates the dependencies.
 
 - **Setup same as test workflow** (see above).
-- ..
+- ...
 - **Build & push docker image + SBOM**: Uses the `nais/docker-build-push` action to build and push a Docker image and generate a Software Bill of Materials (SBOM) file.
 - **Generate and submit dependency graph**: Uses the `gradle/actions/dependency-submission` action to generate and submit the dependency graph to Github.
 - **Scan docker image for secrets**: Uses the `aquasecurity/trivy-action` action to scan the Docker image for secrets and generates a SARIF file.
