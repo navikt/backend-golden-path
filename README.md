@@ -35,8 +35,6 @@ This workflow triggers on push to main and when dependabot updates the dependenc
 - ...
 - **Build & push docker image + SBOM**: Uses the `nais/docker-build-push` action to build and push a Docker image and generate a Software Bill of Materials (SBOM) file.
 - **Generate and submit dependency graph**: Uses the `gradle/actions/dependency-submission` action to generate and submit the dependency graph to Github.
-- **Scan docker image for secrets**: Uses the `aquasecurity/trivy-action` action to scan the Docker image for secrets and generates a SARIF file.
-- **Upload SARIF file**: Uses the `github/codeql-action/upload-sarif` action to upload the SARIF file.
 
 Workflow file: `.github/workflows/main.yaml`
 
@@ -47,16 +45,6 @@ This workflow is triggered on pull requests created by Dependabot and performs t
 - **Automerge Dependabot PRs**: Uses the `navikt/automerge-dependabot` action to auto-merge Dependabot pull requests.
 
 Workflow file: `.github/workflows/dependabot-automerge.yml`
-
-### 4. CodeQL Analysis
-
-This workflow is triggered on push and pull requests to perform CodeQL analysis.
-
-- **Checkout the code**: Uses the `actions/checkout` action to checkout the code.
-- **Initialize CodeQL**: Uses the `github/codeql-action/init` action to initialize the CodeQL analysis.
-- **Perform CodeQL analysis**: Uses the `github/codeql-action/analyze` action to perform the CodeQL analysis.
-
-Workflow file: `.github/workflows/codeql.yml`
 
 ## License
 [MIT](LICENSE).

@@ -1,0 +1,10 @@
+spec:
+  ingresses:
+    - https://backend-golden-path.intern.dev.nav.no # TODO: Change this to your desired ingress
+  replicas:
+    max: 1
+    min: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 32Mi
