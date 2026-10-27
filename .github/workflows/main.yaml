@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - "*.md"
 jobs:
-  test-build-deploy:
+  test-build:
     permissions:
       contents: write # for dependency graph
       id-token: write # for nais docker-build-push
@@ -37,7 +37,7 @@ jobs:
     permissions:
         contents: read
         id-token: write
-    needs: test-build-deploy
+    needs: test-build
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -49,5 +49,5 @@ jobs:
 #        run: |
 #          nais apply .nais/app.yaml \
 #            --environment prod-gcp \
-#            --set spec.image="${{ needs.build.outputs.image }}" \
+#            --set spec.image="${{ needs.test-build.outputs.image }}" \
 #            --wait
